@@ -88,7 +88,7 @@
 
       'eager-chrome-extension-menu, eager-chrome-extension-menu * {' +
         'box-sizing: border-box;' +
-        'font-family: sans-serif;' +
+        'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;' +
         'font-size: 14px;' +
         'line-height: normal;' +
       '}' +
