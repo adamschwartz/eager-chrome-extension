@@ -83,7 +83,7 @@
         'right: 80px;' +
         'background: rgba(235, 235, 235, 0.93);' +
         'box-shadow: 0 0 10px rgba(0, 0, 0, .2);' +
-        'border-radius: 5px;' +
+        'border-radius: 0 0 5px 5px;' +
       '}' +
 
       'eager-chrome-extension-menu[closed="true"] {' +
@@ -113,9 +113,7 @@
       '}' +
 
       'eager-chrome-extension-menu-install:first-child > a {' +
-        'border-top-left-radius: 5px;' +
-        'border-top-right-radius: 5px;' +
-        'padding-top: 7px;' +
+        'padding-top: 6px;' +
       '}' +
 
       'eager-chrome-extension-menu-install:last-child > a {' +
@@ -133,7 +131,7 @@
       'eager-chrome-extension-menu[loading="true"] {' +
         'height: 41px;' +
         'width: 140px;' +
-        'padding: 10px 0 0 40px;' +
+        'padding: 10px 0 0 39px;' +
         'box-sizing: border-box;' +
       '}' +
 
