@@ -18,8 +18,6 @@ chrome.pageAction.onClicked.addListener(function (tab) {
       url: 'https://eager.io/site/' + site.id
     });
   }
-
-  console.log(site);
 });
 
 chrome.tabs.onRemoved.addListener(function (tabId) {
