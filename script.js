@@ -39,7 +39,10 @@
     var site = JSON.parse(meta.content);
 
     if (site.id && Object.keys(site.installs).length > 0) {
-      chrome.extension.sendMessage({ msg: 'setSite', site: site });
+      chrome.extension.sendMessage({
+        msg: 'setSite',
+        site: site
+      });
     }
   });
 })();
