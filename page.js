@@ -33,6 +33,10 @@
 
     request.onerror = function() {
       console.log('Eager Chrome Extension: There was a connection error of some sort.');
+      setTimeout(function(){
+        console.log('Eager Chrome Extension: Retrying...');
+        getJSON(url, cb);
+      }, 1000);
     };
 
     request.send();
