@@ -75,11 +75,11 @@
         'z-index: 999999999999999999999;' +
         'position: fixed;' +
         'display: block;' +
-        'top: 0;' +
-        'right: 0;' +
-        'background: #f3f3f3;' +
-        'box-shadow: 0 0 0 1px rgba(0, 0, 0, .2);' +
-        'border-bottom-left-radius: 5px;' +
+        'top: 0px;' +
+        'right: 80px;' +
+        'background: rgba(235, 235, 235, 0.93);' +
+        'box-shadow: 0 0 10px rgba(0, 0, 0, .2);' +
+        'border-radius: 5px;' +
       '}' +
 
       'eager-chrome-extension-menu[closed="true"] {' +
@@ -105,12 +105,19 @@
         'box-shadow: none;' +
         'border: 0;' +
         'color: #333;' +
-        'padding: 4px 14px 4px 11px;' +
+        'padding: 5px 14px;' +
+      '}' +
+
+      'eager-chrome-extension-menu-install:first-child > a {' +
+        'border-top-left-radius: 5px;' +
+        'border-top-right-radius: 5px;' +
+        'padding-top: 7px;' +
       '}' +
 
       'eager-chrome-extension-menu-install:last-child > a {' +
         'border-bottom-left-radius: 5px;' +
-        'padding-bottom: 6px;' +
+        'border-bottom-right-radius: 5px;' +
+        'padding-bottom: 7px;' +
       '}' +
 
       'eager-chrome-extension-menu-install > a:hover {' +
