@@ -97,7 +97,7 @@
         'top: 0px;' +
         'right: 80px;' +
         'background: rgba(235, 235, 235, 0.93);' +
-        'box-shadow: 0 0 10px rgba(0, 0, 0, .2);' +
+        'box-shadow: 0 0 0 1px rgba(0, 0, 0, .2), 0 0 12px rgba(0, 0, 0, .2);' +
         'border-radius: 0 0 5px 5px;' +
       '}' +
 
