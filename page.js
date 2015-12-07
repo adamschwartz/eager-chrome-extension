@@ -18,16 +18,6 @@
     return null;
   };
 
-  var findz = function(arr, query) {
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].id === query.id) {
-        return arr[i];
-      }
-    }
-
-    return null;
-  };
-
   var getJSON = function(url, cb) {
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
@@ -48,12 +38,21 @@
     request.send();
   };
 
-  var initMenu = function() {
-    var menuEl = document.createElement('eager-chrome-extension-menu');
-    menuEl.setAttribute('loading', true);
-    menuEl.innerHTML = '<eager-chrome-extension-menu-loading><eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading-dot><eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading-dot><eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading-dot><eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading-dot></<eager-chrome-extension-menu-loading>'
+  var menuEl = document.createElement('eager-chrome-extension-menu');
+  var toggleMenu = function() {
+    if (menuEl.parentNode) {
+      if (menuEl.getAttribute('closed') === 'true') {
+        menuEl.setAttribute('closed', 'false');
+      } else {
+        menuEl.setAttribute('closed', 'true');
+      }
+      return;
+    }
 
-    getJSON('https://api.eager.io/apps', function(apps){
+    menuEl.setAttribute('loading', true);
+    menuEl.innerHTML = '<eager-chrome-extension-menu-loading><eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading-dot><eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading-dot><eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading-dot><eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading-dot></eager-chrome-extension-menu-loading>'
+
+    getJSON('https://api.eager.io/apps', function (apps) {
       menuEl.setAttribute('loading', false);
       menuEl.innerHTML = '';
 
@@ -62,28 +61,75 @@
 
       for (var installId in site.installs) {
         var installEl = document.createElement('eager-chrome-extension-menu-install');
-        console.log(site.installs[installId].appId);
-        var app = findz(apps, { id: site.installs[installId].appId });
-        console.log('app', app);
+        var app = find(apps, { id: site.installs[installId].appId });
         if (app) {
           installsEl.appendChild(installEl);
-          installEl.innerHTML = '<a href="https://eager.io/install/' + installId + '/edit">' + app.title + '</a>';
+          installEl.innerHTML = '<a target="_blank" href="https://eager.io/install/' + installId + '/edit">' + app.title + '</a>';
         }
       }
     });
 
     var style = document.createElement('style');
     style.innerHTML = (
-      'eager-chrome-extension-menu { z-index: 999999999999999999999; position: fixed; display: block; top: 20px; right: 20px; background: white; border: 1px solid rgba(0, 0, 0, .2); }' +
-      'eager-chrome-extension-menu-install { display: block }' +
-      'eager-chrome-extension-menu-install:not(:last-child) { border-bottom: 1px solid #eee }' +
-      'eager-chrome-extension-menu-install > a { display: block; background: white; text-decoration: none; transition: none; outline: none; box-shadow: none; border: 0; color: #333; padding: 2px 7px 0px; font-size: 14px }' +
-      'eager-chrome-extension-menu-install > a:hover { background: #e90f92; box-shadow: 0 0 0 1px #e90f92; color: #fff; -webkit-font-smoothing: antialiased }' +
+      'eager-chrome-extension-menu {' +
+        'z-index: 999999999999999999999;' +
+        'position: fixed;' +
+        'display: block;' +
+        'top: 0;' +
+        'right: 0;' +
+        'background: #f3f3f3;' +
+        'box-shadow: 0 0 0 1px rgba(0, 0, 0, .2);' +
+        'border-bottom-left-radius: 5px;' +
+      '}' +
 
-      'eager-chrome-extension-menu[loading="true"] { height: 40px; width: 120px; padding-left: 28px }' +
-      'eager-chrome-extension-menu eager-chrome-extension-menu-loading { font-size: 12px }' +
+      'eager-chrome-extension-menu[closed="true"] {' +
+        'display: none !important;' +
+      '}' +
 
-      // Loading dots
+      'eager-chrome-extension-menu, eager-chrome-extension-menu * {' +
+        'box-sizing: border-box;' +
+        'font-family: sans-serif;' +
+        'font-size: 14px;' +
+        'line-height: normal;' +
+      '}' +
+
+      'eager-chrome-extension-menu-install {' +
+        'display: block;' +
+      '}' +
+
+      'eager-chrome-extension-menu-install > a {' +
+        'display: block;' +
+        'text-decoration: none;' +
+        'transition: none;' +
+        'outline: none;' +
+        'box-shadow: none;' +
+        'border: 0;' +
+        'color: #333;' +
+        'padding: 4px 14px 4px 11px;' +
+      '}' +
+
+      'eager-chrome-extension-menu-install:last-child > a {' +
+        'border-bottom-left-radius: 5px;' +
+        'padding-bottom: 6px;' +
+      '}' +
+
+      'eager-chrome-extension-menu-install > a:hover {' +
+        'background: #e90f92 !important;' +
+        'color: #fff !important;' +
+        '-webkit-font-smoothing: antialiased;' +
+      '}' +
+
+      'eager-chrome-extension-menu[loading="true"] {' +
+        'height: 41px;' +
+        'width: 140px;' +
+        'padding: 10px 0 0 40px;' +
+        'box-sizing: border-box;' +
+      '}' +
+
+      'eager-chrome-extension-menu eager-chrome-extension-menu-loading, eager-chrome-extension-menu eager-chrome-extension-menu-loading-dot {' +
+        'font-size: 12px !important;' +
+      '}' +
+
       'eager-chrome-extension-menu-loading {' +
         'opacity: 0;' +
         'animation: eager-chrome-extension-loading-dots-fadein 0.5s linear forwards;' +
@@ -96,7 +142,7 @@
         'vertical-align: middle;' +
         'background: #808080;' +
         'border-radius: 50%;' +
-        'margin: 0 0.25em;' +
+        'margin: 0 .25em;' +
         'animation: eager-chrome-extension-loading-dots-middle-dots 0.5s linear infinite;' +
       '}' +
 
@@ -160,10 +206,6 @@
     document.body.appendChild(menuEl);
   };
 
-
-
-
-
   var detectEager = function() {
     var Eager = window.Eager;
     if (Eager) {
@@ -179,9 +221,9 @@
       meta.dispatchEvent(done);
 
       if (Object.keys(site.installs).length) {
-        document.addEventListener('keydown', function(e){
+        document.addEventListener('keydown', function (e) {
           if (e.metaKey && e.shiftKey && e.keyCode === 69) {
-            initMenu();
+            toggleMenu();
           }
         });
       }
