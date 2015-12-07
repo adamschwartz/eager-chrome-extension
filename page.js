@@ -63,13 +63,28 @@
       var installsEl = document.createElement('eager-chrome-extension-menu-installs');
       menuEl.appendChild(installsEl);
 
-      for (var installId in site.installs) {
-        var installEl = document.createElement('eager-chrome-extension-menu-install');
-        var app = find(apps, { id: site.installs[installId].appId });
+      var installsArr = [];
+      for (var id in site.installs) {
+        var app = find(apps, { id: site.installs[id].appId });
         if (app) {
-          installsEl.appendChild(installEl);
-          installEl.innerHTML = '<a target="_blank" href="https://eager.io/install/' + installId + '/edit">' + app.title + '</a>';
+          site.installs[id].app = app;
+          site.installs[id].id = id;
+          installsArr.push(site.installs[id]);
         }
+      }
+
+      installsArr.sort(function(a, b){
+        a = a.app.title;
+        b = b.app.title;
+
+        return a.localeCompare(b);
+      });
+
+      for (var i = 0; i < installsArr.length; i++) {
+        var install = installsArr[i];
+        var installEl = document.createElement('eager-chrome-extension-menu-install');
+        installEl.innerHTML = '<a target="_blank" href="https://eager.io/install/' + install.id + '/edit">' + install.app.title + '</a>';
+        installsEl.appendChild(installEl);
       }
     });
 
